@@ -44,7 +44,6 @@
 import moment from 'moment';
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 import Book from "../components/Book";
-import loadedBooks from '../../public/books.json';
 
 export default {
   name: 'Browse',
@@ -64,12 +63,6 @@ export default {
       searchString: ''
     };
   },
-  created () {
-    // ... api call processing ...
-    const savedBooks = JSON.parse(localStorage.getItem('books'));
-    const books = savedBooks ? savedBooks : loadedBooks;
-    localStorage.setItem('books', JSON.stringify(books));
-  },
   methods: {
     buttonChanged (value) {
       this.currentButton = value;
@@ -81,7 +74,7 @@ export default {
   computed: {
     books () {
       // ... should be api call ...
-      let books = JSON.parse(localStorage.getItem('books'));
+      let books = this.$store.state.books;
 
       switch (this.currentButton) {
         case 'All Books': {

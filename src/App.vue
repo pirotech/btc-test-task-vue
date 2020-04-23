@@ -3,7 +3,7 @@
     <Sidebar
       :addBookModal="() => turnAddBookModal(!addBookModalOpened)"
     />
-    <router-view/>
+    <router-view />
     <AddBookModal
       v-if="addBookModalOpened"
       :onModalClose="() => turnAddBookModal(false)"
@@ -18,9 +18,12 @@
 </template>
 
 <script>
+import { mapState } from 'vuex';
 import Sidebar from './components/Sidebar';
 import AddBookModal from './components/AddBookModal';
 import MessageModal from './components/MessageModal';
+import loadedBooks from '../public/books.json';
+import {SET_BOOKS} from "./store";
 
 export default {
   name: 'App',
@@ -36,6 +39,21 @@ export default {
       messageModalOpened: false
     };
   },
+  computed: {
+    ...mapState([
+      'books'
+    ])
+  },
+  created () {
+    // ... api call processing ...
+    const savedBooks = JSON.parse(localStorage.getItem('books'));
+    const books = savedBooks ? savedBooks : loadedBooks;
+    localStorage.setItem('books', JSON.stringify(books));
+    this.$store.commit({
+      type: SET_BOOKS,
+      books
+    })
+  },
   methods: {
     turnAddBookModal (value) {
       this.addBookModalOpened = value;
@@ -46,6 +64,7 @@ export default {
     onAddBook (book) {
       this.turnAddBookModal(false);
       this.addedBook = book;
+      this.$store.state.books = [...this.books, book];
       this.turnMessageModal(true);
     }
   }
