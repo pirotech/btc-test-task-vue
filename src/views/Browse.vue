@@ -9,7 +9,7 @@
           :key="button"
           class="filters__button"
           :class="{'filters__button_active': button === currentButton}"
-          @click="fieldChanged('currentButton', button)"
+          @click="buttonChanged(button)"
         >
           {{button}}
         </li>
@@ -20,7 +20,7 @@
           class="filters-search-field__input"
           :value="searchString"
           placeholder="Enter keywords"
-          @change="e => fieldChanged('searchString', e.target.value)"
+          @keyup="e => searchStringChanged(e.target.value)"
         />
         <FontAwesomeIcon class="filters-search-field__icon" icon="search"/>
       </div>
@@ -41,12 +41,13 @@
 </template>
 
 <script>
+import moment from 'moment';
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 import Book from "../components/Book";
 import loadedBooks from '../../public/books.json';
 
 export default {
-  name: 'Home',
+  name: 'Browse',
   components: {
     FontAwesomeIcon,
     Book
@@ -60,16 +61,61 @@ export default {
         'Free Books'
       ],
       currentButton: 'All Books',
-      searchString: '',
-      books: []
+      searchString: ''
     };
   },
   created () {
-    this.books = loadedBooks;
+    // ... api call processing ...
+    const savedBooks = JSON.parse(localStorage.getItem('books'));
+    const books = savedBooks ? savedBooks : loadedBooks;
+    localStorage.setItem('books', JSON.stringify(books));
   },
   methods: {
-    fieldChanged (name, value) {
-      this[name] = value;
+    buttonChanged (value) {
+      this.currentButton = value;
+    },
+    searchStringChanged (value) {
+      this.searchString = value;
+    }
+  },
+  computed: {
+    books () {
+      // ... should be api call ...
+      let books = JSON.parse(localStorage.getItem('books'));
+
+      switch (this.currentButton) {
+        case 'All Books': {
+          break;
+        }
+        case 'Most Recent': {
+          books = books.filter(item => {
+            const date = moment(item.createdDate, 'DD.MM.YYYY');
+            return date.isBetween(
+              moment().subtract(2, 'month'),
+              moment()
+            );
+          });
+          break;
+        }
+        case 'Most Popular': {
+          books = books.filter(item => {
+            return item.starsCount === 5;
+          });
+          break;
+        }
+        case 'Free Books': {
+          books = books.filter(item => {
+            return item.price === 0;
+          });
+          break;
+        }
+      }
+
+      books = this.searchString ? books.filter(item => {
+        return item.title.toLowerCase().includes(this.searchString.toLowerCase());
+      }) : books;
+
+      return books;
     }
   }
 }
