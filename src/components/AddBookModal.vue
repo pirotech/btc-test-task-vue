@@ -3,7 +3,7 @@
     <div class="add-book-modal">
       <div class="add-book-modal-header">
         <h2 class="header__title">Add New Books</h2>
-        <FontAwesomeIcon class="header__close-button" icon="times"/>
+        <FontAwesomeIcon class="header__close-button" icon="times" @click="onModalClose"/>
       </div>
       <div class="add-book-modal-main">
         <UiTabs
@@ -75,7 +75,7 @@
         <div v-show="selectedTab.id === 3" class="add-book-modal-form"></div>
       </div>
       <div class="add-book-modal-footer">
-        <button class="footer__cancel-button">Cancel</button>
+        <button class="footer__cancel-button" @click="onModalClose">Cancel</button>
         <button class="footer__action-button">Add book</button>
       </div>
     </div>
@@ -93,6 +93,9 @@ export default {
     FontAwesomeIcon,
     UiTabs,
     UiTextField
+  },
+  props: {
+    onModalClose: Function
   },
   data () {
     const tabs = [

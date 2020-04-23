@@ -1,10 +1,13 @@
 <template>
   <div id="app">
     <Sidebar
-      :addBookModal="turnAddBookModal"
+      :addBookModal="() => turnAddBookModal(!addBookModalOpened)"
     />
     <router-view/>
-    <AddBookModal v-show="addBookModalOpened" />
+    <AddBookModal
+      v-show="addBookModalOpened"
+      :onModalClose="() => turnAddBookModal(false)"
+    />
   </div>
 </template>
 
@@ -24,8 +27,8 @@ export default {
     };
   },
   methods: {
-    turnAddBookModal () {
-      this.addBookModalOpened = !this.addBookModalOpened;
+    turnAddBookModal (value) {
+      this.addBookModalOpened = value;
     }
   }
 };
