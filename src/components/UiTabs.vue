@@ -1,13 +1,13 @@
 <template>
-  <ul class="tabs">
+  <ul class="ui-tabs">
     <li
       v-for="item in items"
-      class="tabs__item"
-      :class="{'tabs__item_selected': item.id === selected.id}"
+      class="ui-tabs__item"
+      :class="{'ui-tabs__item_selected': item.id === selected.id}"
       @click="onSelect(item)"
     >
-      <FontAwesomeIcon class="tabs__icon" :icon="item.icon" />
-      <p class="tabs__title">{{item.title}}</p>
+      <FontAwesomeIcon class="ui-tabs__icon" :icon="item.icon" />
+      <p class="ui-tabs__title">{{item.title}}</p>
     </li>
   </ul>
 </template>
@@ -16,7 +16,7 @@
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
 
 export default {
-  name: "Tabs",
+  name: "UiTabs",
   components: {
     FontAwesomeIcon
   },
@@ -29,7 +29,7 @@ export default {
 </script>
 
 <style scoped lang="scss">
-.tabs {
+.ui-tabs {
   display: flex;
   flex-direction: column;
   background-color: #eef1f7;
@@ -42,10 +42,10 @@ export default {
     cursor: pointer;
     &_selected {
       background-color: #97b3ce;
-      .tabs__icon {
+      .ui-tabs__icon {
         color: white;
       }
-      .tabs__title {
+      .ui-tabs__title {
         color: white;
       }
     }

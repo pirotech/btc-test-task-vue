@@ -36,3 +36,11 @@ input {
 button {
   cursor: pointer;
 }
+
+// utils
+.row {
+  display: flex;
+  &_space-between {
+    justify-content: space-between;
+  }
+}

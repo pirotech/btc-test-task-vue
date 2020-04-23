@@ -6,24 +6,73 @@
         <FontAwesomeIcon class="header__close-button" icon="times"/>
       </div>
       <div class="add-book-modal-main">
-        <Tabs
+        <UiTabs
           class="add-book-modal__tabs"
           :items="tabs"
           :selected="selectedTab"
           :onSelect="onSelectTab"
         />
         <div v-show="selectedTab.id === 0" class="add-book-modal-form">
-          1
+          <UiTextField
+            class="form__field"
+            label="Title"
+            required
+            :value="title"
+            placeholder="Enter Title"
+            :onChange="e => onFieldChange('title', e.target.value)"
+          />
+          <UiTextField
+            class="form__field"
+            label="Author"
+            required
+            :value="author"
+            placeholder="Enter Author"
+            :onChange="e => onFieldChange('author', e.target.value)"
+          />
+          <UiTextField
+            class="form__field"
+            label="Publisher"
+            required
+            :value="publisher"
+            placeholder="Enter Publisher"
+            :onChange="e => onFieldChange('publisher', e.target.value)"
+          />
+          <div class="row row_space-between">
+            <UiTextField
+              class="form__field form__field_small"
+              label="Paperback"
+              :value="paperback"
+              placeholder="Enter Paperback"
+              :onChange="e => onFieldChange('paperback', e.target.value)"
+            />
+            <UiTextField
+              class="form__field form__field_small"
+              required
+              label="ISBN"
+              :value="isbn"
+              placeholder="Enter ISBN"
+              :onChange="e => onFieldChange('isbn', e.target.value)"
+            />
+          </div>
+          <UiTextField
+            class="form__field"
+            label="Summary"
+            :value="summary"
+            placeholder="Enter Summary"
+            :onChange="e => onFieldChange('summary', e.target.value)"
+          />
         </div>
         <div v-show="selectedTab.id === 1" class="add-book-modal-form">
-          2
+          <UiTextField
+            class="form__field"
+            label="Genre"
+            :value="genre"
+            placeholder="Enter Genre"
+            :onChange="e => onFieldChange('genre', e.target.value)"
+          />
         </div>
-        <div v-show="selectedTab.id === 2" class="add-book-modal-form">
-          3
-        </div>
-        <div v-show="selectedTab.id === 3" class="add-book-modal-form">
-          4
-        </div>
+        <div v-show="selectedTab.id === 2" class="add-book-modal-form"></div>
+        <div v-show="selectedTab.id === 3" class="add-book-modal-form"></div>
       </div>
       <div class="add-book-modal-footer">
         <button class="footer__cancel-button">Cancel</button>
@@ -35,13 +84,15 @@
 
 <script>
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
-import Tabs from './Tabs';
+import UiTabs from './UiTabs';
+import UiTextField from './UiTextField';
 
 export default {
   name: "AddBookModal",
   components: {
     FontAwesomeIcon,
-    Tabs
+    UiTabs,
+    UiTextField
   },
   data () {
     const tabs = [
@@ -56,12 +107,12 @@ export default {
         title: 'Genre'
       },
       {
-        id: 3,
+        id: 2,
         icon: ['far', 'file-image'],
         title: 'Poster'
       },
       {
-        id: 4,
+        id: 3,
         icon: 'info-circle',
         title: 'Info'
       }
@@ -81,6 +132,9 @@ export default {
   methods: {
     onSelectTab (tab) {
       this.selectedTab = tab;
+    },
+    onFieldChange (name, value) {
+      this[name] = value;
     }
   }
 }
@@ -130,8 +184,26 @@ export default {
     width: 200px;
   }
   &-form {
-    width: 100%;
+    width: 500px;
+    min-height: 430px;
     background-color: white;
+  }
+  .form {
+    &__field {
+      margin: 25px 20px 0;
+      &:last-child {
+        margin-bottom: 25px;
+      }
+      &_small {
+        min-width: 220px;
+        width: 220px;
+        margin-right: 0;
+        &:last-child {
+          margin-bottom: 0;
+          margin-right: 20px;
+        }
+      }
+    }
   }
   &-footer {
     display: flex;
