@@ -12,6 +12,7 @@ export default new Vuex.Store({
   mutations: {
     [SET_BOOKS] (state, payload) {
       state.books = payload.books;
+      localStorage.setItem('books', JSON.stringify(payload.books));
     }
   },
   actions: {

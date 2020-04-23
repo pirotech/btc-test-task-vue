@@ -52,7 +52,7 @@ export default {
     this.$store.commit({
       type: SET_BOOKS,
       books
-    })
+    });
   },
   methods: {
     turnAddBookModal (value) {
@@ -64,7 +64,10 @@ export default {
     onAddBook (book) {
       this.turnAddBookModal(false);
       this.addedBook = book;
-      this.$store.state.books = [...this.books, book];
+      this.$store.commit({
+        type: SET_BOOKS,
+        books: [...this.books, book]
+      });
       this.turnMessageModal(true);
     }
   }
