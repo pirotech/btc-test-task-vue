@@ -1,7 +1,8 @@
 <template>
   <div class="sidebar">
     <button class="sidebar__add-book-button">
-      ADD A BOOK
+      <FontAwesomeIcon icon="plus"/>
+      <p>ADD A BOOK</p>
     </button>
     <div class="sidebar__line"></div>
     <ul class="sidebar-links">
@@ -18,7 +19,7 @@
     <div class="sidebar__line"></div>
     <ul class="sidebar-histories">
       <li class="sidebar-history">
-        <div class="history__icon"></div>
+        <FontAwesomeIcon class="history__icon" icon="clock"/>
         <div class="history-text">
           <p>
             You added <a href="#">Fight Club</a> by
@@ -29,7 +30,7 @@
         </div>
       </li>
       <li class="sidebar-history">
-        <div class="history__icon"></div>
+        <FontAwesomeIcon class="history__icon" icon="clock"/>
         <div class="history-text">
           <p>
             You added <a href="#">The Trial</a> by
@@ -90,6 +91,9 @@ export default {
   width: 200px;
   background-color: #1f2637;
   &__add-book-button {
+    display: flex;
+    justify-content: center;
+    align-items: center;
     width: 160px;
     height: 44px;
     margin: 38px 20px;
@@ -101,6 +105,9 @@ export default {
     background-color: #f2795a;
     &:hover {
       background-color: #f58a6e;
+    }
+    p {
+      margin-left: 10px;
     }
   }
   &__line {
