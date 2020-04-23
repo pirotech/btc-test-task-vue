@@ -3,6 +3,7 @@
     <span class="ui-text-field__label" :class="{'ui-text-field__label_required': required}">{{label}}</span>
     <input
       class="ui-text-field__input"
+      :class="{'ui-text-field__input_error': !!error}"
       type="text"
       :value="value"
       :placeholder="placeholder"
@@ -18,6 +19,7 @@ export default {
     label: String,
     required: Boolean,
     value: String,
+    error: String,
     placeholder: String,
     onChange: Function
   }
@@ -48,6 +50,9 @@ export default {
     border: 1px solid #d1d5e0;
     &::placeholder {
       color: #8c97b2;
+    }
+    &_error {
+      border-color: #e78989;
     }
   }
 }

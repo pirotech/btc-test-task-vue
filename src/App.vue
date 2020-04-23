@@ -5,8 +5,12 @@
     />
     <router-view/>
     <AddBookModal
-      v-show="addBookModalOpened"
+      v-if="addBookModalOpened"
       :onModalClose="() => turnAddBookModal(false)"
+      :onAction="onAddBook"
+    />
+    <MessageModal
+      v-if="messageModalOpened"
     />
   </div>
 </template>
@@ -14,21 +18,31 @@
 <script>
 import Sidebar from './components/Sidebar';
 import AddBookModal from './components/AddBookModal';
+import MessageModal from './components/MessageModal';
 
 export default {
   name: 'App',
   components: {
     Sidebar,
-    AddBookModal
+    AddBookModal,
+    MessageModal
   },
   data () {
     return {
-      addBookModalOpened: false
+      addBookModalOpened: false,
+      messageModalOpened: false
     };
   },
   methods: {
     turnAddBookModal (value) {
       this.addBookModalOpened = value;
+    },
+    turnMessageModal (value) {
+      this.messageModalOpened = value;
+    },
+    onAddBook (book) {
+      this.turnAddBookModal(false);
+      this.turnMessageModal(true);
     }
   }
 };

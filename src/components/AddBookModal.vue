@@ -1,6 +1,6 @@
 <template>
-  <div class="add-book-modal-wrapper">
-    <div class="add-book-modal">
+  <div class="add-book-modal-wrapper" @click="onModalClose">
+    <div class="add-book-modal" @click.stop="() => {}">
       <div class="add-book-modal-header">
         <h2 class="header__title">Add New Books</h2>
         <FontAwesomeIcon class="header__close-button" icon="times" @click="onModalClose"/>
@@ -18,6 +18,7 @@
             label="Title"
             required
             :value="title"
+            :error="titleError"
             placeholder="Enter Title"
             :onChange="e => onFieldChange('title', e.target.value)"
           />
@@ -26,6 +27,7 @@
             label="Author"
             required
             :value="author"
+            :error="authorError"
             placeholder="Enter Author"
             :onChange="e => onFieldChange('author', e.target.value)"
           />
@@ -34,6 +36,7 @@
             label="Publisher"
             required
             :value="publisher"
+            :error="publisherError"
             placeholder="Enter Publisher"
             :onChange="e => onFieldChange('publisher', e.target.value)"
           />
@@ -50,6 +53,7 @@
               required
               label="ISBN"
               :value="isbn"
+              :error="isbnError"
               placeholder="Enter ISBN"
               :onChange="e => onFieldChange('isbn', e.target.value)"
             />
@@ -76,7 +80,7 @@
       </div>
       <div class="add-book-modal-footer">
         <button class="footer__cancel-button" @click="onModalClose">Cancel</button>
-        <button class="footer__action-button">Add book</button>
+        <button class="footer__action-button" @click="action">Add book</button>
       </div>
     </div>
   </div>
@@ -95,7 +99,8 @@ export default {
     UiTextField
   },
   props: {
-    onModalClose: Function
+    onModalClose: Function,
+    onAction: Function
   },
   data () {
     const tabs = [
@@ -124,10 +129,14 @@ export default {
       tabs,
       selectedTab: tabs[0],
       title: '',
+      titleError: '',
       author: '',
+      authorError: '',
       publisher: '',
+      publisherError: '',
       paperback: '',
       isbn: '',
+      isbnError: '',
       summary: '',
       genre: ''
     };
@@ -138,6 +147,34 @@ export default {
     },
     onFieldChange (name, value) {
       this[name] = value;
+      this[name + 'Error'] = '';
+    },
+    action () {
+      if (!this.title) {
+        this.titleError = 'Field is required'
+      }
+      if (!this.author) {
+        this.authorError = 'Field is required'
+      }
+      if (!this.publisher) {
+        this.publisherError = 'Field is required'
+      }
+      if (!this.isbn) {
+        this.isbnError = 'Field is required'
+      }
+
+      if (this.titleError || this.authorError || this.publisherError || this.isbnError) {
+        return;
+      }
+      this.onAction({
+        title: this.title,
+        author: this.author,
+        publisher: this.publisher,
+        paperback: this.paperback,
+        isbn: this.isbn,
+        summary: this.summary,
+        genre: this.genre
+      });
     }
   }
 }
