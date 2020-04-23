@@ -11,6 +11,8 @@
     />
     <MessageModal
       v-if="messageModalOpened"
+      :bookTitle="addedBook.title"
+      :on-modal-close="() => turnMessageModal(false)"
     />
   </div>
 </template>
@@ -30,6 +32,7 @@ export default {
   data () {
     return {
       addBookModalOpened: false,
+      addedBook: {},
       messageModalOpened: false
     };
   },
@@ -42,6 +45,7 @@ export default {
     },
     onAddBook (book) {
       this.turnAddBookModal(false);
+      this.addedBook = book;
       this.turnMessageModal(true);
     }
   }
