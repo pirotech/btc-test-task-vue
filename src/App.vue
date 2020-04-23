@@ -1,17 +1,32 @@
 <template>
   <div id="app">
-    <Sidebar />
+    <Sidebar
+      :addBookModal="turnAddBookModal"
+    />
     <router-view/>
+    <AddBookModal v-show="addBookModalOpened" />
   </div>
 </template>
 
 <script>
 import Sidebar from './components/Sidebar';
+import AddBookModal from './components/AddBookModal';
 
 export default {
   name: 'App',
   components: {
-    Sidebar
+    Sidebar,
+    AddBookModal
+  },
+  data () {
+    return {
+      addBookModalOpened: false
+    };
+  },
+  methods: {
+    turnAddBookModal () {
+      this.addBookModalOpened = !this.addBookModalOpened;
+    }
   }
 };
 </script>

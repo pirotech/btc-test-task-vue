@@ -1,6 +1,6 @@
 <template>
   <div class="sidebar">
-    <button class="sidebar__add-book-button">
+    <button class="sidebar__add-book-button" @click="addBookModal">
       <FontAwesomeIcon icon="plus"/>
       <p>ADD A BOOK</p>
     </button>
@@ -51,6 +51,9 @@ export default {
   name: "Sidebar",
   components: {
     FontAwesomeIcon
+  },
+  props: {
+    addBookModal: Function
   },
   data () {
     return {
