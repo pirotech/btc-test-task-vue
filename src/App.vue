@@ -4,7 +4,7 @@
       :addBookModal="() => turnAddBookModal(!addBookModalOpened)"
     />
     <router-view />
-    <AddBookModal
+    <BookModal
       v-if="addBookModalOpened"
       :onModalClose="() => turnAddBookModal(false)"
       :onAction="onAddBook"
@@ -14,22 +14,28 @@
       :bookTitle="addedBook.title"
       :on-modal-close="() => turnMessageModal(false)"
     />
+    <BookModal
+      v-if="selectedBook"
+      :book="selectedBook"
+      disabled
+      :onModalClose="() => turnBookModal(false)"
+    />
   </div>
 </template>
 
 <script>
 import { mapState } from 'vuex';
 import Sidebar from './components/Sidebar';
-import AddBookModal from './components/AddBookModal';
+import BookModal from './components/BookModal';
 import MessageModal from './components/MessageModal';
 import loadedBooks from '../public/books.json';
-import {SET_BOOKS} from "./store";
+import {SELECT_BOOK, SET_BOOKS} from "./store";
 
 export default {
   name: 'App',
   components: {
     Sidebar,
-    AddBookModal,
+    BookModal,
     MessageModal
   },
   data () {
@@ -41,7 +47,8 @@ export default {
   },
   computed: {
     ...mapState([
-      'books'
+      'books',
+      'selectedBook'
     ])
   },
   created () {
@@ -69,6 +76,12 @@ export default {
         books: [...this.books, book]
       });
       this.turnMessageModal(true);
+    },
+    turnBookModal (value) {
+      this.$store.commit({
+        type: SELECT_BOOK,
+        selectedBook: null
+      })
     }
   }
 };

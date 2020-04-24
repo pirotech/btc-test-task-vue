@@ -6,7 +6,8 @@
       :class="{'ui-text-field__input_error': !!error}"
       type="text"
       :value="value"
-      :placeholder="placeholder"
+      :placeholder="disabled ? '-' : placeholder"
+      :disabled="disabled"
       @keyup="onChange"
     />
   </label>
@@ -21,6 +22,7 @@ export default {
     value: String,
     error: String,
     placeholder: String,
+    disabled: Boolean,
     onChange: Function
   }
 }
@@ -50,6 +52,10 @@ export default {
     border: 1px solid #d1d5e0;
     &::placeholder {
       color: #8c97b2;
+    }
+    &:disabled {
+      background-color: white;
+      border-color: white;
     }
     &_error {
       border-color: #e78989;

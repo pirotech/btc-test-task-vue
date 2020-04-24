@@ -1,18 +1,18 @@
 <template>
-  <div class="add-book-modal-wrapper" @click="onModalClose">
-    <div class="add-book-modal" @click.stop="() => {}">
-      <div class="add-book-modal-header">
+  <div class="book-modal-wrapper" @click="onModalClose">
+    <div class="book-modal" @click.stop="() => {}">
+      <div class="book-modal-header">
         <h2 class="header__title">Add New Books</h2>
         <FontAwesomeIcon class="header__close-button" icon="times" @click="onModalClose"/>
       </div>
-      <div class="add-book-modal-main">
+      <div class="book-modal-main">
         <UiTabs
-          class="add-book-modal__tabs"
+          class="book-modal__tabs"
           :items="tabs"
           :selected="selectedTab"
           :onSelect="onSelectTab"
         />
-        <div v-show="selectedTab.id === 0" class="add-book-modal-form">
+        <div v-show="selectedTab.id === 0" class="book-modal-form">
           <UiTextField
             class="form__field"
             label="Title"
@@ -20,6 +20,7 @@
             :value="title"
             :error="titleError"
             placeholder="Enter Title"
+            :disabled="!!book"
             :onChange="e => onFieldChange('title', e.target.value)"
           />
           <UiTextField
@@ -29,6 +30,7 @@
             :value="author"
             :error="authorError"
             placeholder="Enter Author"
+            :disabled="!!book"
             :onChange="e => onFieldChange('author', e.target.value)"
           />
           <UiTextField
@@ -38,6 +40,7 @@
             :value="publisher"
             :error="publisherError"
             placeholder="Enter Publisher"
+            :disabled="!!book"
             :onChange="e => onFieldChange('publisher', e.target.value)"
           />
           <div class="row row_space-between">
@@ -46,6 +49,7 @@
               label="Paperback"
               :value="paperback"
               placeholder="Enter Paperback"
+              :disabled="!!book"
               :onChange="e => onFieldChange('paperback', e.target.value)"
             />
             <UiTextField
@@ -55,6 +59,7 @@
               :value="isbn"
               :error="isbnError"
               placeholder="Enter ISBN"
+              :disabled="!!book"
               :onChange="e => onFieldChange('isbn', e.target.value)"
             />
           </div>
@@ -63,24 +68,26 @@
             label="Summary"
             :value="summary"
             placeholder="Enter Summary"
+            :disabled="!!book"
             :onChange="e => onFieldChange('summary', e.target.value)"
           />
         </div>
-        <div v-show="selectedTab.id === 1" class="add-book-modal-form">
+        <div v-show="selectedTab.id === 1" class="book-modal-form">
           <UiTextField
             class="form__field"
             label="Genre"
             :value="genre"
             placeholder="Enter Genre"
+            :disabled="!!book"
             :onChange="e => onFieldChange('genre', e.target.value)"
           />
         </div>
-        <div v-show="selectedTab.id === 2" class="add-book-modal-form"></div>
-        <div v-show="selectedTab.id === 3" class="add-book-modal-form"></div>
+        <div v-show="selectedTab.id === 2" class="book-modal-form"></div>
+        <div v-show="selectedTab.id === 3" class="book-modal-form"></div>
       </div>
-      <div class="add-book-modal-footer">
+      <div class="book-modal-footer">
         <button class="footer__cancel-button" @click="onModalClose">Cancel</button>
-        <button class="footer__action-button" @click="action">Add book</button>
+        <button v-if="!book" class="footer__action-button" @click="action">Add book</button>
       </div>
     </div>
   </div>
@@ -92,15 +99,25 @@ import UiTabs from './UiTabs';
 import UiTextField from './UiTextField';
 
 export default {
-  name: "AddBookModal",
+  name: "BookModal",
   components: {
     FontAwesomeIcon,
     UiTabs,
     UiTextField
   },
   props: {
+    // edit mode
     onModalClose: Function,
-    onAction: Function
+    onAction: Function,
+    // read mode
+    book: {
+      type: Object,
+      default: null
+    },
+    disabled: {
+      type: Boolean,
+      default: false
+    }
   },
   data () {
     const tabs = [
@@ -141,6 +158,17 @@ export default {
       genre: ''
     };
   },
+  created() {
+    if (this.book) {
+      this.title = this.book.title;
+      this.author = this.book.author;
+      this.publisher = this.book.publisher;
+      this.paperback = this.book.paperback;
+      this.isbn = this.book.isbn;
+      this.summary = this.book.summary;
+      this.genre = this.book.genre;
+    }
+  },
   methods: {
     onSelectTab (tab) {
       this.selectedTab = tab;
@@ -162,6 +190,10 @@ export default {
       if (!this.isbn) {
         this.isbnError = 'Field is required'
       }
+      const handledIsbn = parseInt(this.isbn) + '';
+      if (handledIsbn !== this.isbn) {
+        this.isbnError = 'ISBN must be a number';
+      }
 
       if (this.titleError || this.authorError || this.publisherError || this.isbnError) {
         return;
@@ -181,7 +213,7 @@ export default {
 </script>
 
 <style scoped lang="scss">
-.add-book-modal {
+.book-modal {
   display: flex;
   flex-direction: column;
   width: 700px;

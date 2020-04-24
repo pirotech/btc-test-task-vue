@@ -1,11 +1,11 @@
 <template>
-  <div class="book" :class="[outerClass]">
+  <div class="book" :class="[outerClass]" @click="onSelect">
     <div class="book__cover" :style="{backgroundImage: `url(${cover})`}"></div>
     <h3 class="book__title">{{title}}</h3>
     <p class="book__author">by {{author}}</p>
     <ul class="book-stars">
       <li v-for="star in stars" class="book__star">
-        <FontAwesomeIcon v-show="star === '1'" :icon="['fas', 'star']" />
+        <FontAwesomeIcon v-show="star === '1'" icon="star" />
         <FontAwesomeIcon v-show="star === '-'" icon="star-half-alt" />
         <FontAwesomeIcon v-show="star === '0'" :icon="['far', 'star']" />
       </li>
@@ -29,7 +29,8 @@ export default {
     starsCount: {
       type: Number,
       default: 0
-    }
+    },
+    onSelect: Function
   },
   data() {
     return {
@@ -50,6 +51,7 @@ export default {
   display: flex;
   flex-direction: column;
   width: 200px;
+  cursor: pointer;
   &__cover {
     min-width: 100%;
     height: 275px;

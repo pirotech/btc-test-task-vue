@@ -35,6 +35,7 @@
         :title="book.title"
         :author="book.author"
         :starsCount="book.starsCount"
+        :onSelect="() => onSelectBook(book)"
       />
     </div>
   </div>
@@ -43,7 +44,8 @@
 <script>
 import moment from 'moment';
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
-import Book from "../components/Book";
+import Book from '../components/Book';
+import {SELECT_BOOK} from '../store';
 
 export default {
   name: 'Browse',
@@ -69,6 +71,12 @@ export default {
     },
     searchStringChanged (value) {
       this.searchString = value;
+    },
+    onSelectBook (item) {
+      this.$store.commit({
+        type: SELECT_BOOK,
+        selectedBook: item
+      })
     }
   },
   computed: {
