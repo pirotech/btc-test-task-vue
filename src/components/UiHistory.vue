@@ -19,8 +19,8 @@
 </template>
 
 <script>
-import { ADD_TO_MUST_READ, ADD_BOOK } from '../models/constants';
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
+import History from '../models/History';
 
 export default {
   name: "UiHistory",
@@ -34,8 +34,8 @@ export default {
     }
   },
   computed: {
-    ADD_TO_MUST_READ: () => ADD_TO_MUST_READ,
-    ADD_BOOK: () => ADD_BOOK,
+    ADD_TO_MUST_READ: () => History.ADD_TO_MUST_READ,
+    ADD_BOOK: () => History.ADD_BOOK,
     preparedDate () {
       return this.value.createdDate.fromNow();
     }

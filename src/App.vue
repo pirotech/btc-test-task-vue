@@ -18,20 +18,18 @@
       v-if="selectedBook"
       :book="selectedBook"
       disabled
-      :onModalClose="() => turnBookModal(false)"
+      :onModalClose="closeBookModal"
     />
   </div>
 </template>
 
 <script>
-import moment from 'moment';
 import { mapState } from 'vuex';
 import Sidebar from './components/Sidebar';
 import BookModal from './components/BookModal';
 import MessageModal from './components/MessageModal';
+import {SELECT_BOOK, SET_BOOKS, ADD_BOOK} from './store';
 import loadedBooks from '../public/books.json';
-import {ADD_BOOK} from './models/constants';
-import {ADD_HISTORY, SELECT_BOOK, SET_BOOKS} from './store';
 
 export default {
   name: 'App',
@@ -73,21 +71,13 @@ export default {
     onAddBook (book) {
       this.turnAddBookModal(false);
       this.addedBook = book;
-      this.$store.commit({
-        type: SET_BOOKS,
-        books: [...this.books, book]
-      });
-      this.$store.commit({
-        type: ADD_HISTORY,
-        history: {
-          type: ADD_BOOK,
-          book,
-          createdDate: moment()
-        }
+      this.$store.dispatch({
+        type: ADD_BOOK,
+        book: book
       });
       this.turnMessageModal(true);
     },
-    turnBookModal (value) {
+    closeBookModal () {
       this.$store.commit({
         type: SELECT_BOOK,
         selectedBook: null

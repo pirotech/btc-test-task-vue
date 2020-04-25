@@ -1,11 +1,13 @@
 import Vue from 'vue';
 import Vuex from 'vuex';
+import moment from 'moment';
 import History from '../models/History';
 
 Vue.use(Vuex);
 
 export const ADD_HISTORY = 'ADD_HISTORY';
 export const SET_BOOKS = 'SET_BOOKS';
+export const ADD_BOOK = 'ADD_BOOK';
 export const SELECT_BOOK = 'SELECT_BOOK';
 
 const storedHistories = History.getStoredHistories();
@@ -34,11 +36,30 @@ export default new Vuex.Store({
       state.books = payload.books;
       localStorage.setItem('books', JSON.stringify(payload.books));
     },
+    [ADD_BOOK] (state, payload) {
+      const books = [...state.books, payload.book];
+      state.books = books;
+      localStorage.setItem('books', JSON.stringify(books));
+    },
     [SELECT_BOOK] (state, payload) {
       state.selectedBook = payload.selectedBook;
     }
   },
   actions: {
+    [ADD_BOOK] ({state, commit}, {book}) {
+      commit({
+        type: ADD_BOOK,
+        book
+      });
+      commit({
+        type: ADD_HISTORY,
+        history: {
+          type: History.ADD_BOOK,
+          book,
+          createdDate: moment()
+        }
+      });
+    }
   },
   modules: {
   }

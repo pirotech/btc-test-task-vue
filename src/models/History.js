@@ -1,11 +1,12 @@
 import moment from 'moment';
-import {ADD_TO_MUST_READ} from './constants';
 
 const History = {
+  ADD_BOOK: 'ADD_BOOK',
+  ADD_TO_MUST_READ: 'ADD_TO_MUST_READ',
   getDefaultHistories: () => ([
     {
       id: 1,
-      type: ADD_TO_MUST_READ,
+      type: 'ADD_TO_MUST_READ',
       book: {
         id: 1000,
         title: 'Fight Club',
@@ -15,7 +16,7 @@ const History = {
     },
     {
       id: 0,
-      type: ADD_TO_MUST_READ,
+      type: 'ADD_TO_MUST_READ',
       book: {
         id: 1001,
         title: 'The Trial',
