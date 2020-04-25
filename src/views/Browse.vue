@@ -14,16 +14,12 @@
           {{button}}
         </li>
       </ul>
-      <div class="filters-search-field">
-        <input
-          type="text"
-          class="filters-search-field__input"
-          :value="searchString"
-          placeholder="Enter keywords"
-          @keyup="e => searchStringChanged(e.target.value)"
-        />
-        <FontAwesomeIcon class="filters-search-field__icon" icon="search"/>
-      </div>
+      <UiSearchField
+        class="filters-search-field"
+        :value="searchString"
+        placeholder="Enter keywords"
+        :onChange="searchStringChanged"
+      />
     </div>
     <div class="browse__line"></div>
     <div class="browse-books">
@@ -45,23 +41,32 @@
 import moment from 'moment';
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 import Book from '../components/Book';
+import UiSearchField from '../components/UiSearchField';
 import {SELECT_BOOK} from '../store';
+
+const Buttons = Object.freeze({
+  ALL_BOOKS: 'All Books',
+  MOST_RECENT: 'Most Recent',
+  MOST_POPULAR: 'Most Popular',
+  FREE_BOOKS: 'Free Books'
+});
 
 export default {
   name: 'Browse',
   components: {
     FontAwesomeIcon,
-    Book
+    Book,
+    UiSearchField
   },
   data () {
     return {
       buttons: [
-        'All Books',
-        'Most Recent',
-        'Most Popular',
-        'Free Books'
+        Buttons.ALL_BOOKS,
+        Buttons.MOST_RECENT,
+        Buttons.MOST_POPULAR,
+        Buttons.FREE_BOOKS
       ],
-      currentButton: 'All Books',
+      currentButton: Buttons.ALL_BOOKS,
       searchString: ''
     };
   },
@@ -69,8 +74,8 @@ export default {
     buttonChanged (value) {
       this.currentButton = value;
     },
-    searchStringChanged (value) {
-      this.searchString = value;
+    searchStringChanged (event) {
+      this.searchString = event.target.value;
     },
     onSelectBook (item) {
       this.$store.commit({
@@ -85,10 +90,10 @@ export default {
       let books = this.$store.state.books;
 
       switch (this.currentButton) {
-        case 'All Books': {
+        case Buttons.ALL_BOOKS: {
           break;
         }
-        case 'Most Recent': {
+        case Buttons.MOST_RECENT: {
           books = books.filter(item => {
             const date = moment(item.createdDate, 'DD.MM.YYYY');
             return date.isBetween(
@@ -98,13 +103,13 @@ export default {
           });
           break;
         }
-        case 'Most Popular': {
+        case Buttons.MOST_POPULAR: {
           books = books.filter(item => {
             return item.starsCount === 5;
           });
           break;
         }
-        case 'Free Books': {
+        case Buttons.FREE_BOOKS: {
           books = books.filter(item => {
             return item.price === 0;
           });
@@ -170,35 +175,6 @@ export default {
       }
     }
     &-search-field {
-      position: relative;
-      display: flex;
-      align-items: center;
-      &__input {
-        width: 200px;
-        height: 32px;
-        padding: 0 20px;
-        font-size: 13px;
-        line-height: 32px;
-        color: #8c97b2;
-        border: 1px solid #c7cddb;
-        border-radius: 16px;
-        background-color: white;
-        @media (max-width: 1120px) {
-          width: 190px;
-        }
-        &::placeholder {
-          font-size: 13px;
-          line-height: 32px;
-          color: #8c97b2;
-        }
-      }
-      &__icon {
-        position: absolute;
-        right: 20px;
-        font-size: 13px;
-        line-height: 32px;
-        color: #8c97b2;
-      }
     }
   }
   &-books {
