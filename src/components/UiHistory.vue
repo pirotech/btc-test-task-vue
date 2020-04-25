@@ -11,7 +11,7 @@
     </div>
     <div v-if="value.type === ADD_BOOK" class="history-text">
       <p>
-        You added new book {{value.book.title}}
+        You added new book <a href="#">{{value.book.title}}</a>
       </p>
       <p>{{preparedDate}}</p>
     </div>
