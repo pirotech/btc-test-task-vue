@@ -11,12 +11,13 @@ import {
 } from '@fortawesome/free-solid-svg-icons';
 import {
   faStar as farStar,
-  faFileImage as farFileImage
+  faFileImage as farFileImage,
+  faClock as farClock
 } from '@fortawesome/free-regular-svg-icons';
 
 library.add(
   faBook, faGlobeAsia, faShoppingCart, faStar, faThList,
-  farStar, faStarHalfAlt, faClock, faSearch, faPlus, faTimes,
+  farStar, faStarHalfAlt, farClock, faSearch, faPlus, faTimes,
   faAlignCenter, faTags, farFileImage, faInfoCircle
 );
 

@@ -17,40 +17,27 @@
       </li>
     </ul>
     <div class="sidebar__line"></div>
-    <ul class="sidebar-histories">
-      <li class="sidebar-history">
-        <FontAwesomeIcon class="history__icon" icon="clock"/>
-        <div class="history-text">
-          <p>
-            You added <a href="#">Fight Club</a> by
-            <a href="#">Chuck Palahniuk</a> to your
-            <a href="#">Must Read Title</a>
-          </p>
-          <p>24 minutes ago</p>
-        </div>
-      </li>
-      <li class="sidebar-history">
-        <FontAwesomeIcon class="history__icon" icon="clock"/>
-        <div class="history-text">
-          <p>
-            You added <a href="#">The Trial</a> by
-            <a href="#">Franz Kafka</a> to your
-            <a href="#">Must Read Titles</a>.
-          </p>
-          <p>48 minutes ago</p>
-        </div>
-      </li>
-    </ul>
+    <div class="sidebar-histories">
+      <UiHistory
+        v-for="history in histories"
+        :key="history.id"
+        class="sidebar-history"
+        :value="history"
+      />
+    </div>
   </div>
 </template>
 
 <script>
+import { mapState } from 'vuex';
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
+import UiHistory from './UiHistory';
 
 export default {
   name: "Sidebar",
   components: {
-    FontAwesomeIcon
+    FontAwesomeIcon,
+    UiHistory
   },
   props: {
     addBookModal: Function
@@ -85,6 +72,11 @@ export default {
         },
       ]
     };
+  },
+  computed: {
+    ...mapState([
+      'histories'
+    ])
   }
 }
 </script>
@@ -148,27 +140,7 @@ export default {
   }
   &-history {
     display: flex;
-    padding: 30px 20px 0;
-    .history {
-      &__icon {
-        font-size: 12px;
-        color: #4d586c;
-      }
-      &-text {
-        margin-left: 10px;
-        font-size: 12px;
-        color: #4d586c;
-        p {
-          &:last-child {
-            margin-top: 10px;
-          }
-        }
-        a {
-          color: #667a8f;
-          text-decoration: none;
-        }
-      }
-    }
+    padding: 28px 20px 0;
   }
 }
 </style>

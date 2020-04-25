@@ -24,12 +24,14 @@
 </template>
 
 <script>
+import moment from 'moment';
 import { mapState } from 'vuex';
 import Sidebar from './components/Sidebar';
 import BookModal from './components/BookModal';
 import MessageModal from './components/MessageModal';
 import loadedBooks from '../public/books.json';
-import {SELECT_BOOK, SET_BOOKS} from "./store";
+import {ADD_BOOK} from './models/constants';
+import {ADD_HISTORY, SELECT_BOOK, SET_BOOKS} from './store';
 
 export default {
   name: 'App',
@@ -74,6 +76,14 @@ export default {
       this.$store.commit({
         type: SET_BOOKS,
         books: [...this.books, book]
+      });
+      this.$store.commit({
+        type: ADD_HISTORY,
+        history: {
+          type: ADD_BOOK,
+          book,
+          createdDate: moment()
+        }
       });
       this.turnMessageModal(true);
     },
