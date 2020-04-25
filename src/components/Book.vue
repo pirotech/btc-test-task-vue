@@ -52,11 +52,18 @@ export default {
   flex-direction: column;
   width: 200px;
   cursor: pointer;
+  @media (max-width: 1120px) {
+    width: 250px;
+  }
   &__cover {
     min-width: 100%;
     height: 275px;
     background: no-repeat center center #eef1f7;
+    background-size: cover;
     border-radius: 4px;
+    @media (max-width: 1120px) {
+      height: 345px;
+    }
   }
   &__title {
     margin-top: 15px;

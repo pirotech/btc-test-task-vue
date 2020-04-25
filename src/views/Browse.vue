@@ -165,6 +165,9 @@ export default {
         color: white;
         background-color: #97b3ce;
       }
+      @media (max-width: 1120px) {
+        margin-right: 0;
+      }
     }
     &-search-field {
       position: relative;
@@ -180,6 +183,9 @@ export default {
         border: 1px solid #c7cddb;
         border-radius: 16px;
         background-color: white;
+        @media (max-width: 1120px) {
+          width: 190px;
+        }
         &::placeholder {
           font-size: 13px;
           line-height: 32px;
