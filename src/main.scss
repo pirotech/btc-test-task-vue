@@ -1,0 +1,46 @@
+// fonts
+@font-face {
+  font-family: 'Myriad Pro';
+  src: url('./assets/fonts/MyriadPro/MyriadPro-Regular.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}
+
+// reset
+html,
+body,
+div,
+header,
+main,
+ul,
+li,
+ol,
+p,
+span,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+button,
+input {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  box-sizing: border-box;
+  outline: none;
+  border: none;
+  font-family: Arial, sans-serif;
+}
+button {
+  cursor: pointer;
+}
+
+// utils
+.row {
+  display: flex;
+  &_space-between {
+    justify-content: space-between;
+  }
+}

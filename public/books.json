@@ -1,0 +1,92 @@
+[
+  {
+    "id": 0,
+    "cover": "1.png",
+    "title": "Jewels of Nizam",
+    "author": "Geeta Devi",
+    "starsCount": 5,
+    "createdDate": "22.04.2020",
+    "price": 0
+  },
+  {
+    "id": 1,
+    "cover": "2.png",
+    "title": "Cakes & Bakes",
+    "author": "Sanjeev Kapoor",
+    "starsCount": 5,
+    "createdDate": "10.03.2020",
+    "price": 30
+  },
+  {
+    "id": 2,
+    "cover": "3.png",
+    "title": "Jamie’s Kitchen",
+    "author": "Jamie Oliver",
+    "starsCount": 4.5,
+    "createdDate": "04.03.2020",
+    "price": 50
+  },
+  {
+    "id": 3,
+    "cover": "4.png",
+    "title": "Inexpensive Family Meals",
+    "author": "Simon Holst",
+    "starsCount": 4,
+    "createdDate": "23.03.2020",
+    "price": 0
+  },
+  {
+    "id": 4,
+    "cover": "5.png",
+    "title": "Paleo Slow Cooking",
+    "author": "Chrissy Gower",
+    "starsCount": 4.5,
+    "createdDate": "16.11.2019",
+    "price": 120
+  },
+  {
+    "id": 5,
+    "cover": "6.png",
+    "title": "Cook Like an Italian",
+    "author": "Tobie Puttock",
+    "starsCount": 4,
+    "createdDate": "15.07.2019",
+    "price": 22
+  },
+  {
+    "id": 6,
+    "cover": "7.png",
+    "title": "Suneeta Vaswani",
+    "author": "Geeta Devi",
+    "starsCount": 5,
+    "createdDate": "02.08.2019",
+    "price": 0
+  },
+  {
+    "id": 7,
+    "cover": "8.png",
+    "title": "Jamie Does",
+    "author": "Jamie Oliver",
+    "starsCount": 4,
+    "createdDate": "22.10.2019",
+    "price": 36
+  },
+  {
+    "id": 8,
+    "cover": "9.png",
+    "title": "Jamie’s italy",
+    "author": "Jamie Oliver",
+    "starsCount": 5,
+    "createdDate": "07.03.2020",
+    "price": 59
+  },
+  {
+    "id": 9,
+    "cover": "10.png",
+    "title": "Vegetables Cookbook",
+    "author": "Matthew Biggs",
+    "starsCount": 3.5,
+    "createdDate": "19.12.2019",
+    "price": 55
+  }
+]

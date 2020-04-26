@@ -1,32 +1,98 @@
 <template>
   <div id="app">
-    <div id="nav">
-      <router-link to="/">Home</router-link> |
-      <router-link to="/about">About</router-link>
-    </div>
-    <router-view/>
+    <Sidebar
+      :addBookModal="() => turnAddBookModal(!addBookModalOpened)"
+    />
+    <router-view />
+    <BookModal
+      v-if="addBookModalOpened"
+      :onModalClose="() => turnAddBookModal(false)"
+      :onAction="onAddBook"
+    />
+    <MessageModal
+      v-if="messageModalOpened"
+      :bookTitle="addedBook.title"
+      :on-modal-close="() => turnMessageModal(false)"
+    />
+    <BookModal
+      v-if="selectedBook"
+      :book="selectedBook"
+      disabled
+      :onModalClose="closeBookModal"
+    />
   </div>
 </template>
 
-<style lang="scss">
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-}
+<script>
+import { mapState } from 'vuex';
+import Sidebar from './components/Sidebar';
+import BookModal from './components/BookModal';
+import MessageModal from './components/MessageModal';
+import {SELECT_BOOK, SET_BOOKS, ADD_BOOK} from './store';
+import loadedBooks from '../public/books.json';
 
-#nav {
-  padding: 30px;
-
-  a {
-    font-weight: bold;
-    color: #2c3e50;
-
-    &.router-link-exact-active {
-      color: #42b983;
+export default {
+  name: 'App',
+  components: {
+    Sidebar,
+    BookModal,
+    MessageModal
+  },
+  data () {
+    return {
+      addBookModalOpened: false,
+      addedBook: {},
+      messageModalOpened: false
+    };
+  },
+  computed: {
+    ...mapState([
+      'books',
+      'selectedBook'
+    ])
+  },
+  created () {
+    // ... api call processing ...
+    const savedBooks = JSON.parse(localStorage.getItem('books'));
+    const books = savedBooks ? savedBooks : loadedBooks;
+    localStorage.setItem('books', JSON.stringify(books));
+    this.$store.commit({
+      type: SET_BOOKS,
+      books
+    });
+  },
+  methods: {
+    turnAddBookModal (value) {
+      this.addBookModalOpened = value;
+    },
+    turnMessageModal (value) {
+      this.messageModalOpened = value;
+    },
+    onAddBook (book) {
+      this.turnAddBookModal(false);
+      this.addedBook = book;
+      this.$store.dispatch({
+        type: ADD_BOOK,
+        book: book
+      });
+      this.turnMessageModal(true);
+    },
+    closeBookModal () {
+      this.$store.commit({
+        type: SELECT_BOOK,
+        selectedBook: null
+      })
     }
   }
+};
+</script>
+
+<style lang="scss">
+@import "main";
+
+#app {
+  display: flex;
+  width: 100%;
+  min-height: 100vh;
 }
 </style>
